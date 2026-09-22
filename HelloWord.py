@@ -1,5 +1,8 @@
 import json
+import os
 from typing import TypedDict
+
+BASE_DIR = os.path.dirname(__file__)
 
 class 记录(TypedDict):
     amount: float
@@ -64,13 +67,13 @@ def show_balance(records: list[记录]) -> None:
 
 def save_records(records: list[记录]) -> None:
     # 把列表字典存入json文件
-    with open("records.json", "w", encoding="utf-8") as f:
+    with open(os.path.join(BASE_DIR, "records.json"), "w", encoding="utf-8") as f:
         json.dump(records, f, ensure_ascii=False, indent=2)
     print("✅ 记录已保存到 records.json")
 
 def load_records() -> list[记录]:
     try:
-        with open("records.json", "r", encoding="utf-8") as f:
+        with open(os.path.join(BASE_DIR, "records.json"), "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         return []
@@ -84,13 +87,14 @@ def main() -> None:
         show_menu()
         choice = input("请选择功能：")
         if choice == "0":
-            save_records(records)
             print("已退出")
             break
         elif choice == "1":
             add_income(records)
+            save_records(records)
         elif choice == "2":
             add_expense(records)
+            save_records(records)
         elif choice == "3":
             show_records(records)
         elif choice == "4":
