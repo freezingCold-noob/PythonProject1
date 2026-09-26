@@ -17,18 +17,9 @@ def show_menu() -> None:
     print("4. 计算余额")
     print("0. 退出")
 
-def add_income(records: list[记录]) -> None:
-    while True:
-        amount_str = input("请输入收入金额：")
-        try:
-            amount = float(amount_str)
-            if amount <= 0:
-                print("金额必须大于 0，请重新输入！")
-                continue
-            break
-        except ValueError:
-            print("金额必须是数字，请重新输入！")
+def add_income(records: list[记录],amount:float) -> None:
     records.append({"amount": amount, "type": "income"})
+
     print(f"已存入{amount}元")
 
 def add_expense(records: list[记录]) -> None:
@@ -90,7 +81,8 @@ def main() -> None:
             print("已退出")
             break
         elif choice == "1":
-            add_income(records)
+            amount = float(input("请输入收入金额："))
+            add_income(records, amount)
             save_records(records)
         elif choice == "2":
             add_expense(records)
